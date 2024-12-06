@@ -123,7 +123,7 @@ impl crate::khr::video_queue::Device {
         )
     }
 
-    /// Retrieve the number of elements to pass to [`get_video_session_memory_requirements()`][Self::get_video_session_memory_requirements],
+    /// Retrieve the number of elements to pass to [`get_video_session_memory_requirements()`][Self::get_video_session_memory_requirements()].
     #[inline]
     pub unsafe fn get_video_session_memory_requirements_len(
         &self,
@@ -142,7 +142,7 @@ impl crate::khr::video_queue::Device {
 
     /// <https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkGetVideoSessionMemoryRequirementsKHR.html>
     ///
-    /// Call [`get_video_session_memory_requirements_len()`][Self::get_video_session_memory_requirements_len] to query the number of elements to pass to `out.`
+    /// Call [`get_video_session_memory_requirements_len()`][Self::get_video_session_memory_requirements_len()] to query the number of elements to pass to `out`.
     /// Be sure to [`Default::default()`]-initialize these elements and optionally set their `p_next` pointer.
     #[inline]
     #[doc(alias = "vkGetVideoSessionMemoryRequirementsKHR")]
@@ -159,7 +159,6 @@ impl crate::khr::video_queue::Device {
             out.as_mut_ptr(),
         )
         .result()?;
-
         assert_eq!(count as usize, out.len());
         Ok(())
     }
@@ -199,7 +198,7 @@ impl crate::khr::video_queue::Instance {
         .result()
     }
 
-    /// Retrieve the number of elements to pass to [`get_physical_device_video_format_properties()`][Self::get_physical_device_video_format_properties],
+    /// Retrieve the number of elements to pass to [`get_physical_device_video_format_properties()`][Self::get_physical_device_video_format_properties()].
     #[inline]
     pub unsafe fn get_physical_device_video_format_properties_len(
         &self,
@@ -219,7 +218,7 @@ impl crate::khr::video_queue::Instance {
 
     /// <https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/vkGetPhysicalDeviceVideoFormatPropertiesKHR.html>
     ///
-    /// Call [`get_physical_device_video_format_properties_len()`][Self::get_physical_device_video_format_properties_len] to query the number of elements to pass to `out.`
+    /// Call [`get_physical_device_video_format_properties_len()`][Self::get_physical_device_video_format_properties_len()] to query the number of elements to pass to `out`.
     /// Be sure to [`Default::default()`]-initialize these elements and optionally set their `p_next` pointer.
     #[inline]
     #[doc(alias = "vkGetPhysicalDeviceVideoFormatPropertiesKHR")]
@@ -229,16 +228,15 @@ impl crate::khr::video_queue::Instance {
         video_format_info: &vk::PhysicalDeviceVideoFormatInfoKHR<'_>,
         out: &mut [vk::VideoFormatPropertiesKHR<'_>],
     ) -> VkResult<()> {
-        let mut format_count = out.len() as u32;
+        let mut count = out.len() as u32;
         (self.fp.get_physical_device_video_format_properties_khr)(
             physical_device,
             video_format_info,
-            &mut format_count,
+            &mut count,
             out.as_mut_ptr(),
         )
         .result()?;
-
-        assert_eq!(format_count as usize, out.len());
+        assert_eq!(count as usize, out.len());
         Ok(())
     }
 }

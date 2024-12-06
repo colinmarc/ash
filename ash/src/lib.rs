@@ -98,7 +98,7 @@ pub trait RawMutPtr<T> {
 impl<'r, T> RawMutPtr<T> for Option<&'r mut T> {
     unsafe fn as_raw_mut_ptr(self) -> *mut T {
         match self {
-            Some(val) => val,
+            Some(inner) => inner,
             None => core::ptr::null_mut(),
         }
     }
